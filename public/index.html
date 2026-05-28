@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dr. Frank Loggen — Zahnarztpraxis Bissendorf</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/css/main.css"/>
+<style>
+/* ── COOKIE BANNER ── */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:9000;padding:0 1.5rem;transform:translateY(120%);transition:transform .55s cubic-bezier(.34,1.3,.64,1);pointer-events:none}
+#cookie-banner.show{transform:translateY(0);pointer-events:all}
+.ck-inner{max-width:960px;margin:0 auto 1.4rem;background:#fff;border-radius:18px;box-shadow:0 8px 48px rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.06);padding:1.4rem 1.6rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+.ck-ico{font-size:2rem;flex-shrink:0;line-height:1}
+.ck-txt{flex:1;min-width:240px}
+.ck-txt strong{display:block;font-size:.95rem;font-weight:600;color:#1a1614;margin-bottom:.25rem}
+.ck-txt span{font-size:.83rem;color:#5a524a;line-height:1.55}
+.ck-txt a{color:#2e7d8a;text-decoration:underline;cursor:pointer}
+.ck-btns{display:flex;gap:.6rem;flex-wrap:wrap;flex-shrink:0;align-items:center}
+.ck-btn{padding:.6rem 1.2rem;border-radius:50px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .18s;white-space:nowrap;line-height:1.4}
+.ck-btn-ok{background:#2e7d8a;color:#fff;box-shadow:0 3px 12px rgba(46,125,138,.3)}
+.ck-btn-ok:hover{background:#1d5c66;transform:translateY(-1px)}
+.ck-btn-no{background:#f2efe9;color:#5a524a;border:1.5px solid #e6e0d8}
+.ck-btn-no:hover{background:#e6e0d8}
+.ck-btn-set{background:none;color:#9c9188;font-size:.8rem;font-weight:400;padding:.4rem .6rem;text-decoration:underline}
+/* ── RECAPTCHA ── */
+.recaptcha-wrap{border:1.5px solid var(--border);border-radius:var(--r-sm);padding:.9rem 1.1rem;display:flex;align-items:center;gap:.9rem;background:var(--off);margin-bottom:1.2rem;user-select:none}
+.recaptcha-wrap.verified{border-color:var(--success);background:#f0faf4}
+.recaptcha-wrap.error{border-color:var(--danger);background:#fdf2f2;animation:shake .35s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes rcSpin{to{transform:rotate(360deg)}}
+.rc-checkbox{width:26px;height:26px;border:2px solid var(--border2);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;background:#fff}
+.rc-checkbox.checked{border-color:var(--success);background:var(--success)}
+.rc-label{font-size:.88rem;color:var(--sub);flex:1}
+.rc-logo{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0}
+.rc-logo-icon{font-size:1.4rem;line-height:1}
+.rc-logo-text{font-size:.6rem;color:var(--muted);text-align:center;line-height:1.3}
+/* ── SMTP PROVIDERS ── */
+.smtp-provider{border:1.5px solid var(--border);border-radius:var(--r-sm);padding:.75rem 1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.6rem;font-size:.88rem;font-weight:500}
+.smtp-provider:hover{border-color:var(--ac-mid);background:var(--ac-light)}
+.smtp-provider.selected{border-color:var(--ac);background:var(--ac-light);color:var(--ac2)}
+</style>
+</head>
+<body class="custom-cursor">
+
+<div id="cr"></div>
+<div id="crr"></div>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner">
+  <div class="ck-inner">
+    <div class="ck-ico">🍪</div>
+    <div class="ck-txt">
+      <strong>Wir nutzen Cookies</strong>
+      <span>Diese Website verwendet Cookies für einen reibungslosen Betrieb. Mit „Alle akzeptieren" stimmen Sie auch optionalen Analyse-Cookies zu. <a href="#" data-page="datenschutz">Datenschutz</a></span>
+    </div>
+    <div class="ck-btns">
+      <button class="ck-btn ck-btn-set" id="ck-settings">Einstellungen</button>
+      <button class="ck-btn ck-btn-no"  id="ck-reject">Nur notwendige</button>
+      <button class="ck-btn ck-btn-ok"  id="ck-accept">Alle akzeptieren ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="logo" href="#" data-page="home">Dr. <em>Loggen</em></a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="#" data-page="home" class="active">Start</a></li>
+    <li><a href="#" data-page="praxis">Praxis</a></li>
+    <li><a href="#" data-page="vita">Vita</a></li>
+    <li><a href="#" data-page="leistungen">Leistungen</a></li>
+    <li><a href="#" data-page="kontakt">Kontakt</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:.8rem">
+    <a href="#" data-page="termin" class="nav-cta">Termin buchen</a>
+    <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- ════ HOME ════ -->
+<div class="page active" id="p-home">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">Zahnarztpraxis · Bissendorf</div>
+      <h1 class="hero-title">Ihr <em>Lächeln</em> in<br>besten Händen</h1>
+      <p class="hero-sub">Dr. med. dent. Frank Loggen — ganzheitliche Zahnmedizin mit modernster Technik. Schonend, vertrauensvoll und persönlich.</p>
+      <div class="hero-btns">
+        <a href="#" data-page="termin" class="btn btn-prim">Termin buchen</a>
+        <a href="#" data-page="leistungen" class="btn btn-ghost">Leistungen</a>
+      </div>
+      <div class="hero-facts">
+        <div class="fact"><span class="fact-num">25+</span><div class="fact-lbl">Jahre Erfahrung</div></div>
+        <div class="fact"><span class="fact-num">3D</span><div class="fact-lbl">DVT-Diagnostik</div></div>
+        <div class="fact"><span class="fact-num">6</span><div class="fact-lbl">Schwerpunkte</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="https://www.dr-loggen.de/img/praxis-loggen-haus-01.jpg" alt="Praxis" onerror="this.closest('.hero-right').style.background='var(--ac-light)'"/>
+      <div class="hero-badge"><div class="badge-icon">🦷</div><div class="badge-text"><strong>Mo–Fr geöffnet</strong><span>Mo Mi Fr 8–15 · Di Do 12–20 Uhr</span></div></div>
+    </div>
+  </div>
+  <!-- Tooth Animation -->
+  <div id="tooth-scroll" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 3rem;background:var(--white)">
+    <div class="r" style="text-align:center;margin-bottom:1.5rem"><span class="sec-label">Unsere Philosophie</span><h2 class="sec-title" style="text-align:center">Gesunde Zähne.<br>Ein Leben lang.</h2></div>
+    <div id="tooth-svg-wrap" style="display:flex;justify-content:center">
+      <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" style="width:min(500px,90vw);height:auto;filter:drop-shadow(0 6px 24px rgba(46,125,138,.13))">
+        <ellipse id="al-mouth-bg" cx="240" cy="110" rx="175" ry="28" fill="#2a1820" opacity="0"/>
+        <g id="al-gum-bot"><path d="M 65 118 Q 150 130 240 132 Q 330 130 415 118 Q 380 140 240 144 Q 100 140 65 118 Z" fill="#f0b8c4"/></g>
+        <g id="al-gum-top"><path d="M 65 102 Q 150 90 240 88 Q 330 90 415 102 Q 380 80 240 76 Q 100 80 65 102 Z" fill="#f0b8c4"/></g>
+        <g id="al-teeth-bot">
+          <rect x="188" y="118" width="24" height="22" rx="3" fill="#f8f8f6" stroke="#ddd" stroke-width="1"/>
+          <rect x="214" y="118" width="24" height="22" rx="3" fill="#fafaf8" stroke="#ddd" stroke-width="1"/>
+          <rect x="166" y="119" width="20" height="20" rx="3" fill="#f8f8f6" stroke="#ddd" stroke-width="1"/>
+          <rect x="240" y="119" width="20" height="20" rx="3" fill="#f8f8f6" stroke="#ddd" stroke-width="1"/>
+          <polygon points="146,120 164,120 161,137 149,137" fill="#f8f8f6" stroke="#ddd" stroke-width="1"/>
+          <polygon points="262,120 280,120 277,137 265,137" fill="#f8f8f6" stroke="#ddd" stroke-width="1"/>
+          <rect x="120" y="121" width="24" height="17" rx="3" fill="#f5f5f3" stroke="#ddd" stroke-width="1"/>
+          <rect x="282" y="121" width="24" height="17" rx="3" fill="#f5f5f3" stroke="#ddd" stroke-width="1"/>
+          <rect x="94"  y="122" width="24" height="16" rx="3" fill="#f3f3f1" stroke="#ddd" stroke-width="1"/>
+          <rect x="308" y="122" width="24" height="16" rx="3" fill="#f3f3f1" stroke="#ddd" stroke-width="1"/>
+          <rect x="66"  y="122" width="26" height="15" rx="3" fill="#f0f0ee" stroke="#ddd" stroke-width="1"/>
+          <rect x="334" y="122" width="26" height="15" rx="3" fill="#f0f0ee" stroke="#ddd" stroke-width="1"/>
+        </g>
+        <g id="al-teeth-top">
+          <rect x="188" y="80" width="25" height="24" rx="3" fill="#fcfcfa" stroke="#ddd" stroke-width="1"/>
+          <rect x="215" y="80" width="25" height="24" rx="3" fill="#fefefe" stroke="#ddd" stroke-width="1"/>
+          <rect x="166" y="81" width="20" height="22" rx="3" fill="#fcfcfa" stroke="#ddd" stroke-width="1"/>
+          <rect x="242" y="81" width="20" height="22" rx="3" fill="#fcfcfa" stroke="#ddd" stroke-width="1"/>
+          <polygon points="147,82 166,82 163,102 150,102" fill="#fcfcfa" stroke="#ddd" stroke-width="1"/>
+          <polygon points="262,82 281,82 278,102 265,102" fill="#fcfcfa" stroke="#ddd" stroke-width="1"/>
+          <rect x="120" y="83" width="25" height="18" rx="3" fill="#f8f8f6" stroke="#ddd" stroke-width="1"/>
+          <rect x="283" y="83" width="25" height="18" rx="3" fill="#f8f8f6" stroke="#ddd" stroke-width="1"/>
+          <rect x="94"  y="84" width="24" height="17" rx="3" fill="#f5f5f3" stroke="#ddd" stroke-width="1"/>
+          <rect x="310" y="84" width="24" height="17" rx="3" fill="#f5f5f3" stroke="#ddd" stroke-width="1"/>
+          <rect x="66"  y="85" width="26" height="16" rx="3" fill="#f3f3f1" stroke="#ddd" stroke-width="1"/>
+          <rect x="336" y="85" width="26" height="16" rx="3" fill="#f3f3f1" stroke="#ddd" stroke-width="1"/>
+          <line x1="193" y1="82" x2="193" y2="96" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="220" y1="82" x2="220" y2="97" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
+        <g id="al-lip-bot"><path d="M 52 118 Q 120 132 240 135 Q 360 132 428 118 Q 400 148 300 155 Q 240 160 180 155 Q 80 148 52 118 Z" fill="#e07888" opacity=".92"/><ellipse cx="240" cy="148" rx="60" ry="6" fill="rgba(255,255,255,.18)"/></g>
+        <g id="al-lip-top"><path d="M 52 102 Q 100 75 160 72 Q 200 68 240 65 Q 280 68 320 72 Q 380 75 428 102 Q 380 92 320 88 Q 280 85 260 88 Q 250 90 240 88 Q 230 90 220 88 Q 200 85 160 88 Q 100 92 52 102 Z" fill="#e07888" opacity=".92"/></g>
+        <circle cx="52" cy="110" r="4" fill="#cc6070" opacity=".7"/>
+        <circle cx="428" cy="110" r="4" fill="#cc6070" opacity=".7"/>
+      </svg>
+    </div>
+    <p class="r" style="text-align:center;color:var(--muted);font-size:.85rem;margin-top:1rem">Scrollen Sie, um mehr zu entdecken ↓</p>
+  </div>
+  <section class="sec">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1.5rem">
+      <div><span class="sec-label r">Behandlungen</span><h2 class="sec-title r">Was wir für Sie tun</h2></div>
+      <p class="r" style="max-width:360px;color:var(--sub);line-height:1.7;font-size:.9rem;font-weight:300">Vom ersten Gespräch bis zur Nachsorge — schonend, angstfrei und persönlich.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card r"><div class="card-ico">🦷</div><div class="card-title">Implantologie & 3D-Navigation</div><p class="card-body">Präzise 3D-navigierte Planung — bundesweit einer der ersten Anwender seit 2008.</p></div>
+      <div class="card r" style="transition-delay:.06s"><div class="card-ico">🔬</div><div class="card-title">Diagnostik & DVT</div><p class="card-body">Digitale Volumentomographie direkt in der Praxis für dreidimensionale Einblicke.</p></div>
+      <div class="card r" style="transition-delay:.12s"><div class="card-ico">✨</div><div class="card-title">Ästhetik & Funktion</div><p class="card-body">Veneers, Vollkeramik, Kiefergelenkstherapie — metallfreie Materialien.</p></div>
+      <div class="card r" style="transition-delay:.18s"><div class="card-ico">🛡️</div><div class="card-title">Prävention & Zahnerhaltung</div><p class="card-body">Prophylaxe und Recall-System für ein Leben lang gesunde Zähne.</p></div>
+      <div class="card r" style="transition-delay:.24s"><div class="card-ico">😌</div><div class="card-title">Lachgassedierung</div><p class="card-body">Sanfte Beruhigung bei vollem Bewusstsein — zertifiziert seit 2013.</p></div>
+      <div class="card r" style="transition-delay:.30s"><div class="card-ico">🚌</div><div class="card-title">Patienten-Shuttle</div><p class="card-body">Persönlicher Fahrdienst für Patienten, die Unterstützung benötigen.</p></div>
+    </div>
+  </section>
+  <div class="split">
+    <div class="split-img"><img src="https://www.dr-loggen.de/img/praxis-loggen-01.jpg" alt="Empfangsbereich" onerror="this.closest('.split-img').style.background='var(--ac-light)'"/></div>
+    <div class="split-body">
+      <span class="sec-label r">Die Praxis</span><h2 class="sec-title r">Wo Wohlbefinden beginnt</h2>
+      <p class="r" style="color:var(--sub);line-height:1.8;font-size:.92rem;font-weight:300;margin-bottom:.8rem">Wir laden Sie ein, zur Ruhe zu kommen — in vertrauensvoller Atmosphäre behandelt zu werden.</p>
+      <div class="info-grid r">
+        <div class="info-box"><h4>Adresse</h4><p>Zur Rudolfshöhe 2<br>49143 Bissendorf</p></div>
+        <div class="info-box"><h4>Telefon</h4><p>05402 / 642100</p></div>
+        <div class="info-box"><h4>Mo Mi Fr</h4><p>08:00 – 15:00 Uhr</p></div>
+        <div class="info-box"><h4>Di Do</h4><p>12:00 – 20:00 Uhr</p></div>
+      </div>
+      <div style="margin-top:1.8rem" class="r"><a href="#" class="btn btn-prim" data-page="praxis">Praxis entdecken</a></div>
+    </div>
+  </div>
+  <section class="sec sec-alt">
+    <span class="sec-label r">Aktuelles</span><h2 class="sec-title r">Neuigkeiten aus der Praxis</h2>
+    <div class="news-grid">
+      <div class="news-card r"><div class="news-cat">Behandlung</div><h3>Lachgassedierung gegen Angst</h3><p>70 % finden den Zahnarztbesuch unangenehm. Lachgas schafft echte Entspannung bei vollem Bewusstsein.</p></div>
+      <div class="news-card r" style="transition-delay:.08s"><div class="news-cat">Technologie</div><h3>Digitale Volumentomographie</h3><p>DVT-Gerät direkt vor Ort — Basis für präziseste 3D-navigierte Implantatplanung.</p></div>
+      <div class="news-card r" style="transition-delay:.16s"><div class="news-cat">Service</div><h3>Patienten-Shuttle auf Anfrage</h3><p>Für schwer kranke Patienten bieten wir Hausbesuche und einen persönlichen Shuttle-Service an.</p></div>
+    </div>
+  </section>
+  <section class="sec">
+    <div style="text-align:center;margin-bottom:1rem"><span class="sec-label r" style="display:block;text-align:center">Wann wir für Sie da sind</span><h2 class="sec-title r" style="text-align:center">Sprechzeiten</h2></div>
+    <div class="zeiten-wrap r">
+      <div class="z-col"><div class="z-row"><span class="z-day">Montag</span><span class="z-time">08:00 – 15:00</span></div><div class="z-row"><span class="z-day">Dienstag</span><span class="z-time ac">12:00 – 20:00</span></div><div class="z-row"><span class="z-day">Mittwoch</span><span class="z-time">08:00 – 15:00</span></div></div>
+      <div class="z-sep"></div>
+      <div class="z-col"><div class="z-row"><span class="z-day">Donnerstag</span><span class="z-time ac">12:00 – 20:00</span></div><div class="z-row"><span class="z-day">Freitag</span><span class="z-time">08:00 – 15:00</span></div><div class="z-row"><span class="z-day">Individuelle Vereinbarung</span><span class="z-time ac">✓</span></div></div>
+    </div>
+  </section>
+  <div class="cta-banner"><span class="sec-label" style="color:rgba(255,255,255,.6);display:block;margin-bottom:.5rem">Wir freuen uns auf Sie</span><h2 class="sec-title">Termin vereinbaren</h2><p>Buchen Sie Ihren Termin bequem online oder rufen Sie uns direkt an.</p><div class="cta-chips"><a href="tel:+495402642100" class="cta-chip">📞 05402 – 642100</a><a href="mailto:info@dr-loggen.de" class="cta-chip">✉ info@dr-loggen.de</a></div><a href="#" class="btn-white" data-page="termin">Jetzt online buchen →</a></div>
+</div>
+
+<!-- ════ PRAXIS ════ -->
+<div class="page" id="p-praxis">
+  <div class="ph"><div class="ph-bg"><img src="https://www.dr-loggen.de/img/praxis-loggen-haus-01.jpg" alt="" onerror="this.closest('.ph-bg').style.background='var(--ac)'"/></div><div class="ph-content"><div class="breadcrumb">Start <span>/ Praxis & Service</span></div><h1>Praxis & Service</h1></div></div>
+  <section class="sec sec-alt">
+    <span class="sec-label r">Über uns</span><h2 class="sec-title r">Ihr Lächeln liegt uns am Herzen</h2>
+    <p class="sec-lead r">Vertrauen durch Kommunikation — bedürfnisorientierte Behandlung nach neuesten wissenschaftlichen Standards.</p>
+    <div class="cards-grid">
+      <div class="card r"><div class="card-ico">❄️</div><div class="card-title">Klimatisierte Räume</div><p class="card-body">Angenehme Temperatur das ganze Jahr für maximale Entspannung.</p></div>
+      <div class="card r" style="transition-delay:.06s"><div class="card-ico">⏱️</div><div class="card-title">Max. 15 Min. Wartezeit</div><p class="card-body">Konsequent strukturierte Terminvergabe — Ihre Zeit ist wertvoll.</p></div>
+      <div class="card r" style="transition-delay:.12s"><div class="card-ico">📡</div><div class="card-title">Digitales Röntgen</div><p class="card-body">Strahlungsarme digitale Diagnostik für präzise Befunde.</p></div>
+      <div class="card r" style="transition-delay:.18s"><div class="card-ico">😌</div><div class="card-title">Lachgassedierung</div><p class="card-body">Auf Wunsch sanfte Beruhigung für Patienten mit Zahnarztangst.</p></div>
+      <div class="card r" style="transition-delay:.24s"><div class="card-ico">🔔</div><div class="card-title">Recall-System</div><p class="card-body">Erinnerungsdienst zur Sicherung des Therapieerfolges.</p></div>
+      <div class="card r" style="transition-delay:.30s"><div class="card-ico">🚌</div><div class="card-title">Shuttle & Hausbesuche</div><p class="card-body">Für schwer kranke Patienten auf Anfrage verfügbar.</p></div>
+    </div>
+  </section>
+  <section class="sec">
+    <span class="sec-label r">Einblick</span><h2 class="sec-title r">Praxis-Impressionen</h2>
+    <div class="galerie r">
+      <div class="gal wide tall"><img src="https://www.dr-loggen.de/img/praxis-loggen-01.jpg" alt="Empfang" onerror="this.closest('.gal').style.background='var(--ac-light)'"/><div class="gal-cap">Empfangsbereich</div></div>
+      <div class="gal"><img src="https://www.dr-loggen.de/img/praxis-loggen-02.jpg" alt="Wartebereich" onerror="this.closest('.gal').style.background='var(--ac-light)'"/><div class="gal-cap">Wartebereich</div></div>
+      <div class="gal"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-01.jpg" alt="Behandlung" onerror="this.closest('.gal').style.background='var(--ac-light)'"/><div class="gal-cap">Behandlungsraum</div></div>
+      <div class="gal"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-02a.jpg" alt="Behandlung" onerror="this.closest('.gal').style.background='var(--ac-light)'"/><div class="gal-cap">Behandlung</div></div>
+      <div class="gal"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-02b.jpg" alt="Detail" onerror="this.closest('.gal').style.background='var(--ac-light)'"/><div class="gal-cap">Detail</div></div>
+      <div class="gal"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-03a.jpg" alt="Behandlung" onerror="this.closest('.gal').style.background='var(--ac-light)'"/><div class="gal-cap">Behandlung</div></div>
+      <div class="gal"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-03b.jpg" alt="Detail" onerror="this.closest('.gal').style.background='var(--ac-light)'"/><div class="gal-cap">Detail</div></div>
+      <div class="gal"><img src="https://www.dr-loggen.de/img/praxis-loggen-03.jpg" alt="Team" onerror="this.closest('.gal').style.background='var(--ac-light)'"/><div class="gal-cap">Weiterbildungen</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- ════ VITA ════ -->
+<div class="page" id="p-vita">
+  <div class="ph"><div class="ph-bg"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-01.jpg" alt="" onerror="this.closest('.ph-bg').style.background='var(--ac)'"/></div><div class="ph-content"><div class="breadcrumb">Start <span>/ Team & Vita</span></div><h1>Team & Vita</h1></div></div>
+  <section class="sec sec-alt">
+    <span class="sec-label r">Kompetenz & Erfahrung</span><h2 class="sec-title r">Klarheit. Kompetenz. Vertrauen.</h2>
+    <p class="sec-lead r">Sich mit allen Fragen an ein qualifiziertes Team wenden, das immer für Sie da ist.</p>
+    <div class="vita-grid r">
+      <div class="vita-photo">
+        <img src="https://www.dr-loggen.de/img/praxis-loggen-03.jpg" alt="Dr. Frank Loggen" onerror="this.closest('.vita-photo').style.background='var(--ac-light)'"/>
+        <div class="vita-name"><strong>Dr. med. dent. Frank Loggen</strong><span>Inhaber & Zahnarzt · Bissendorf</span></div>
+      </div>
+      <div>
+        <div class="vita-section"><h3>Ausbildung & Zulassung</h3>
+          <div class="vita-item"><span class="vita-yr">1999</span><span class="vita-desc">Approbation zum Zahnarzt</span></div>
+          <div class="vita-item"><span class="vita-yr">2001</span><span class="vita-desc">Niederlassung in Bissendorf mit kassenzahnärztlicher Zulassung</span></div>
+        </div>
+        <div class="vita-section"><h3>Zertifizierungen</h3>
+          <div class="vita-item"><span class="vita-yr">2005</span><span class="vita-desc">Tätigkeitsschwerpunkt Implantologie</span></div>
+          <div class="vita-item"><span class="vita-yr">2008</span><span class="vita-desc">3D-navigierte Implantologie — bundesweiter Pionier</span></div>
+          <div class="vita-item"><span class="vita-yr">2013</span><span class="vita-desc">Aligner-Technik & Lachgas-Sedierung</span></div>
+          <div class="vita-item"><span class="vita-yr">lfd.</span><span class="vita-desc">DVT-Röntgen mit regelmäßiger Aktualisierung</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════ LEISTUNGEN ════ -->
+<div class="page" id="p-leistungen">
+  <div class="ph"><div class="ph-bg"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-02a.jpg" alt="" onerror="this.closest('.ph-bg').style.background='var(--ac)'"/></div><div class="ph-content"><div class="breadcrumb">Start <span>/ Leistungen</span></div><h1>Behandlungsleistungen</h1></div></div>
+  <section class="sec sec-alt"><span class="sec-label r">Unser Konzept</span><h2 class="sec-title r">Ihr strahlendes Lächeln</h2><p class="sec-lead r">Schonende Therapien, angstfreie Behandlung — vom ersten Gespräch bis zur Nachsorge.</p></section>
+  <div class="ld"><div class="ld-img"><img src="https://www.dr-loggen.de/img/leistungen-lachgassedierung.jpg" alt="" onerror="this.closest('.ld-img').style.background='var(--ac-light)'"/><div class="ld-label">Komfort</div></div><div class="ld-body r"><h3>Lachgassedierung</h3><p>Moderne Beruhigung bei vollem Bewusstsein. Zertifiziert seit 2013.</p><ul class="feat"><li>Entspannung ohne Bewusstseinsverlust</li><li>Individuell dosierbar</li><li>Ohne Begleitperson nach Hause</li></ul></div></div>
+  <div class="ld"><div class="ld-img"><img src="https://www.dr-loggen.de/img/leistungen-dvt.jpg" alt="" onerror="this.closest('.ld-img').style.background='var(--ac-light)'"/><div class="ld-label">Diagnostik</div></div><div class="ld-body r"><h3>Diagnostik & DVT</h3><p>3D-Volumentomographie direkt vor Ort als Basis für präzise Implantatplanung.</p><ul class="feat"><li>3D-Röntgen in der Praxis</li><li>Minimal-invasive Technik</li><li>Höchste Präzision</li></ul></div></div>
+  <div class="ld"><div class="ld-img"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-02b.jpg" alt="" onerror="this.closest('.ld-img').style.background='var(--ac-light)'"/><div class="ld-label">Ästhetik</div></div><div class="ld-body r"><h3>Ästhetik & Funktion</h3><p>Vollkeramik, Veneers und metallfreie Füllungen für ein natürliches Lächeln.</p><ul class="feat"><li>Veneers & Keramikfüllungen</li><li>Vollkeramische Kronen & Brücken</li><li>Kiefergelenkstherapie</li></ul></div></div>
+  <div class="ld"><div class="ld-img"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-03b.jpg" alt="" onerror="this.closest('.ld-img').style.background='var(--ac-light)'"/><div class="ld-label">Vorsorge</div></div><div class="ld-body r"><h3>Prävention & Zahnerhaltung</h3><p>Prophylaxe, PZR und Recall-System für ein Leben lang gesunde Zähne.</p><ul class="feat"><li>Professionelle Zahnreinigung</li><li>Recall-Erinnerungsdienst</li><li>Individuelle Programme</li></ul></div></div>
+  <div class="ld"><div class="ld-img"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-03c.jpg" alt="" onerror="this.closest('.ld-img').style.background='var(--ac-light)'"/><div class="ld-label">Zahnersatz</div></div><div class="ld-body r"><h3>Zahnersatz & Implantate</h3><p>Individueller Zahnersatz nach präziser Planung — vollkeramisch aus deutschem Labor.</p><ul class="feat"><li>Vollkeramik höchster Güte</li><li>Festsitzend & herausnehmbar</li><li>Implantate für alle Situationen</li></ul></div></div>
+  <div class="ld"><div class="ld-img"><img src="https://www.dr-loggen.de/img/leistungen-dvt.jpg" alt="" onerror="this.closest('.ld-img').style.background='var(--ac-light)'"/><div class="ld-label">Innovation</div></div><div class="ld-body r"><h3>3D-Navigation von Implantaten</h3><p>Bundesweiter Pionier seit 2008 — Schlüsselloch-Technik mit DVT-Planung.</p><ul class="feat"><li>Minimal-invasiv</li><li>Individuelle Bohrschablone</li><li>Kurze Heilungszeiten</li></ul></div></div>
+  <div class="cta-banner"><h2 class="sec-title">Jetzt Termin vereinbaren</h2><p>Buchen Sie direkt online oder rufen Sie uns an.</p><a href="#" class="btn-white" data-page="termin">Online buchen →</a></div>
+</div>
+
+<!-- ════ KONTAKT ════ -->
+<div class="page" id="p-kontakt">
+  <div class="ph"><div class="ph-bg"><img src="https://www.dr-loggen.de/img/praxis-loggen-haus-01.jpg" alt="" onerror="this.closest('.ph-bg').style.background='var(--ac)'"/></div><div class="ph-content"><div class="breadcrumb">Start <span>/ Kontakt</span></div><h1>Kontakt & Anfahrt</h1></div></div>
+  <section class="sec sec-alt">
+    <span class="sec-label r">So erreichen Sie uns</span><h2 class="sec-title r">Wir sind für Sie da</h2>
+    <div class="kontakt-grid r">
+      <div>
+        <div class="k-card">
+          <div class="k-row"><div class="k-ico">📍</div><div><div class="k-label">Adresse</div><div class="k-val">Zur Rudolfshöhe 2<br>49143 Bissendorf</div></div></div>
+          <div class="k-row"><div class="k-ico">📞</div><div><div class="k-label">Telefon</div><div class="k-val"><a href="tel:+495402642100">05402 / 642100</a></div></div></div>
+          <div class="k-row"><div class="k-ico">✉</div><div><div class="k-label">E-Mail</div><div class="k-val"><a href="mailto:info@dr-loggen.de">info@dr-loggen.de</a></div></div></div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-top:1rem">
+          <span class="sec-label" style="margin-bottom:1rem;display:block">Sprechzeiten</span>
+          <div class="z-row"><span class="z-day">Mo, Mi, Fr</span><span class="z-time">08:00 – 15:00</span></div>
+          <div class="z-row"><span class="z-day">Di, Do</span><span class="z-time ac">12:00 – 20:00</span></div>
+          <div class="z-row" style="border:none"><span class="z-day">Individuelle Vereinbarung</span><span class="z-time ac">✓</span></div>
+        </div>
+        <div style="display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap">
+          <a href="tel:+495402642100" class="btn btn-prim">Jetzt anrufen</a>
+          <a href="#" class="btn btn-ghost" data-page="termin">Online buchen</a>
+        </div>
+      </div>
+      <div>
+        <iframe class="map-frame" src="https://maps.google.com/maps?q=Zur+Rudolfshohe+2+Bissendorf+Germany&output=embed&z=15" loading="lazy" title="Anfahrt"></iframe>
+        <div style="margin-top:.5rem;text-align:right"><a href="https://maps.google.com/maps?q=Zur+Rudolfshohe+2+Bissendorf+Germany" target="_blank" style="font-size:.8rem;color:var(--ac);text-decoration:none;cursor:none">↗ In Google Maps öffnen</a></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════ TERMIN ════ -->
+<div class="page" id="p-termin">
+  <div class="ph"><div class="ph-bg"><img src="https://www.dr-loggen.de/img/praxis-loggen-behandlung-01.jpg" alt="" onerror="this.closest('.ph-bg').style.background='var(--ac)'"/></div><div class="ph-content"><div class="breadcrumb">Start <span>/ Termin buchen</span></div><h1>Online Termin buchen</h1></div></div>
+  <div id="booking-root"></div>
+</div>
+
+<!-- ════ IMPRESSUM ════ -->
+<div class="page" id="p-impressum">
+  <section class="sec sec-alt" style="max-width:700px;margin:0 auto">
+    <div class="breadcrumb" style="margin-bottom:1rem">Start <span>/ Impressum</span></div>
+    <h1 style="font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:2rem">Impressum</h1>
+    <h3 style="font-size:1rem;font-weight:600;margin-bottom:.5rem">Angaben gemäß § 5 TMG</h3>
+    <p style="color:var(--sub);line-height:1.8;margin-bottom:1.5rem">Dr. med. dent. Frank Loggen<br>Zur Rudolfshöhe 2 · 49143 Bissendorf<br>Tel: 05402 / 642100 · info@dr-loggen.de</p>
+    <h3 style="font-size:1rem;font-weight:600;margin-bottom:.5rem">Berufsbezeichnung</h3>
+    <p style="color:var(--sub);line-height:1.8">Zahnarzt (Deutschland) · Zahnärztekammer Niedersachsen</p>
+  </section>
+</div>
+
+<!-- ════ DATENSCHUTZ ════ -->
+<div class="page" id="p-datenschutz">
+  <section class="sec sec-alt" style="max-width:700px;margin:0 auto">
+    <div class="breadcrumb" style="margin-bottom:1rem">Start <span>/ Datenschutz</span></div>
+    <h1 style="font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:2rem">Datenschutzerklärung</h1>
+    <h3 style="font-size:1rem;font-weight:600;margin-bottom:.5rem">Cookies</h3>
+    <p style="color:var(--sub);line-height:1.8;margin-bottom:1.5rem">Diese Website verwendet notwendige Cookies für den Betrieb (Session) sowie optionale Analyse-Cookies. Sie können Ihre Einwilligung jederzeit über das Cookie-Banner anpassen.</p>
+    <h3 style="font-size:1rem;font-weight:600;margin-bottom:.5rem">Terminbuchung</h3>
+    <p style="color:var(--sub);line-height:1.8">Bei der Buchung erfasste Daten (Name, Telefon, E-Mail) werden ausschließlich zur Terminverwaltung verwendet und nicht an Dritte weitergegeben. Kontakt: info@dr-loggen.de</p>
+  </section>
+</div>
+
+<!-- ════ ADMIN LOGIN ════ -->
+<div class="page" id="p-admin-login">
+  <div class="login-wrap">
+    <div class="login-card">
+      <h1>Admin-Bereich</h1>
+      <p>Zahnarztpraxis Dr. Frank Loggen</p>
+      <div id="login-alert"></div>
+      <div class="form-group"><label>Benutzername</label><input type="text" id="login-user" value="admin" autocomplete="username"/></div>
+      <div class="form-group"><label>Passwort</label><input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password"/></div>
+      <button class="btn btn-prim btn-full" id="login-btn">Anmelden</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ADMIN ════ -->
+<div class="page" id="p-admin">
+  <div class="admin-layout">
+    <div class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-logo">Dr. <em>Loggen</em> — Admin</div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-section">Übersicht</div>
+        <a href="#" data-admin="dashboard" class="active">📊 Dashboard</a>
+        <a href="#" data-admin="termine">📅 Termine</a>
+        <a href="#" data-admin="kalender">🗓 Kalender</a>
+        <div class="sidebar-section">Verwaltung</div>
+        <a href="#" data-admin="settings">⚙️ Einstellungen</a>
+        <a href="#" data-admin="zeiten">🕐 Öffnungszeiten</a>
+        <a href="#" data-admin="sondertage">📌 Sondertage</a>
+        <a href="#" data-admin="behandlungen">💊 Behandlungsarten</a>
+        <div class="sidebar-section">Konto</div>
+        <a href="#" data-admin="email">📧 E-Mail Einstellungen</a>
+        <a href="#" id="admin-logout">🚪 Abmelden</a>
+      </nav>
+    </div>
+    <div class="admin-main" id="admin-main">
+      <div id="admin-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Dr. <em style="font-style:italic">Loggen</em></div>
+  <span>© 2026 · Zur Rudolfshöhe 2 · 49143 Bissendorf</span>
+  <div class="f-links">
+    <a href="#" data-page="impressum">Impressum</a>
+    <a href="#" data-page="datenschutz">Datenschutz</a>
+    <a href="#" data-page="admin-login" style="opacity:.3">Admin</a>
+  </div>
+</footer>
+
+<div id="modal-root"></div>
+<script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "host": "smtp.gmail.com",
+  "port": 587,
+  "secure": false,
+  "user": "scrabby8@gmail.com",
+  "pass": "gsfl rfno sncd inno",
+  "fromName": "Zahnarztpraxis Dr. Frank Loggen",
+  "fromEmail": "scrabby8@gmail.com",
+  "adminEmail": "scrabby8@gmail.com"
+}
